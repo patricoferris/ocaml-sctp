@@ -4,7 +4,6 @@ module type Type = sig
   type t
 
   val int_to_t : int -> t option
-
   val t_to_int : t -> int
 end
 
@@ -12,11 +11,8 @@ module type S = sig
   type t
 
   val length : t -> int
-
   val of_cstruct : Cstruct.t -> (t, [ `Msg of string ]) result
-
   val to_cstruct : t -> Cstruct.t
-
   val fill : Cstruct.t -> int -> t -> unit
 end
 

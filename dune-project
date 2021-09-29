@@ -10,7 +10,7 @@
 (package
  (name sctp)
  (synopsis "Pure OCaml SCTP")
- (description "Pure OCaml Session Control Transmission Protocol")
+ (description "Pure OCaml Stream Control Transmission Protocol")
  (depends
   (alcotest :with-test)
   cstruct))

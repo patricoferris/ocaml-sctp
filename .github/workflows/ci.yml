@@ -216,10 +216,10 @@ jobs:
     - name: Building, installing & testing
       run: opam exec -- dune build @install @runtest
       working-directory: /home/opam/package
-  fedora_32:
+  fedora_33:
     runs-on: ubuntu-latest
     container:
-      image: ocaml/opam@sha256:3f0a841d797b0f980129c4f6830ab3c80c28450ed2a7c62746d3383dcbe29d32
+      image: ocaml/opam:fedora-33-ocaml-4.12
       env:
         HOME: /home/opam
       options: --user 1000

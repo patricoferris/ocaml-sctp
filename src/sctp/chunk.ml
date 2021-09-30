@@ -196,7 +196,6 @@ module Init_common (P : Param.S) = struct
     let remaining = Cstruct.length buff - 16 in
     (* There's probably a nice fold to do here... *)
     let off, params = (ref 0, ref []) in
-    Fmt.pr "%i" remaining;
     try
       while !off < remaining do
         let b = Cstruct.sub buff (16 + !off) (remaining - !off) in
@@ -221,7 +220,6 @@ module Init_common (P : Param.S) = struct
           l + pad l)
         0 params
     in
-    Fmt.pr "!!!%i" p_length;
     let buff = Cstruct.create (16 + p_length) in
     Cstruct.BE.set_uint32 buff 0 init_tag;
     Cstruct.BE.set_uint32 buff 4 a_rwnd;

@@ -47,7 +47,19 @@ let of_cstruct buff =
   if length = 12 then Ok { header; chunks = [] }
     (* Common header + chunk header more than buff... Yikes! *)
   else if 16 > length then Error (`Msg "Not enough data in buff")
-  else Error (`Msg "TOOOODODODODODODODO")
+  else
+    let offset = ref 12 in
+    let chunks = ref [] in
+    try
+      while !offset < length do
+        let b = Cstruct.sub buff !offset (length - !offset) in
+        let chunk = Chunk.of_cstruct b in
+        let chunk_length = Chunk.length ~with_padding:true chunk in
+        chunks := chunk :: !chunks;
+        offset := !offset + chunk_length
+      done;
+      Ok { header; chunks = List.rev !chunks }
+    with Failure m | Invalid_argument m -> Error (`Msg m)
 
 let pp ppf { header; chunks } =
   Fmt.pf ppf "header={%a} chunks=[%a]" Common_header.pp header

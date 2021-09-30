@@ -53,8 +53,12 @@ let to_cstruct { type_; flags; payload } =
   Cstruct.set_uint8 buff 1 flags;
   Cstruct.BE.set_uint16 buff 2 real_length;
   (* What's the most efficient way to do this :| ? *)
-  Cstruct.blit payload 0 buff 4 (length - 4);
+  Cstruct.blit payload 0 buff 4 (real_length - 4);
   buff
+
+let length ?(with_padding = false) t =
+  let len = 4 + Cstruct.length t.payload in
+  if with_padding then len + pad len else len
 
 let of_cstruct buff =
   let typ = Cstruct.get_uint8 buff 0 in
@@ -63,7 +67,7 @@ let of_cstruct buff =
   in
   let flags = Cstruct.get_uint8 buff 1 in
   let len = Cstruct.BE.get_uint16 buff 2 in
-  let payload = Cstruct.sub buff 4 len in
+  let payload = Cstruct.sub buff 4 (len - 4) in
   { type_; flags; payload }
 
 let equal a b =

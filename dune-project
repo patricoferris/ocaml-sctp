@@ -1,16 +1,16 @@
 (lang dune 2.9)
 (name sctp)
-
 (generate_opam_files true)
-
 (license ISC)
 (authors "Patrick Ferris")
 (maintainers "pf341@patricoferris.com")
-
 (package
  (name sctp)
  (synopsis "Pure OCaml SCTP")
  (description "Pure OCaml Stream Control Transmission Protocol")
  (depends
+  (ppx_cstruct (>= 6.0.0))
+  (fmt (>= 0.8.9))
+  (checkseum (>= 0.3.1))
   (alcotest :with-test)
   cstruct))

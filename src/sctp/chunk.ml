@@ -53,7 +53,8 @@ let to_cstruct { type_; flags; payload } =
   Cstruct.set_uint8 buff 1 flags;
   Cstruct.BE.set_uint16 buff 2 real_length;
   (* What's the most efficient way to do this :| ? *)
-  Cstruct.blit payload 0 buff 4
+  Cstruct.blit payload 0 buff 4 (length - 4);
+  buff
 
 let of_cstruct buff =
   let typ = Cstruct.get_uint8 buff 0 in

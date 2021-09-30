@@ -24,12 +24,21 @@ module Common_header = struct
   let equal a b = a = b
 
   let pp ppf { src_port; dst_port; verification_tag; checksum } =
-    Fmt.pf ppf
-      "header: src_port=%i dst_port=%i verification_tag=%ld checksum=%ld"
+    Fmt.pf ppf "src_port=%i dst_port=%i verification_tag=%ld checksum=%ld"
       src_port dst_port verification_tag checksum
 end
 
 type t = { header : Common_header.t; chunks : Chunk.t list }
+
+let to_cstruct { header; chunks } =
+  let ( <+> ) = Cstruct.append in
+  let header = Common_header.to_cstruct header in
+  let chunks =
+    List.fold_left
+      (fun buff c -> buff <+> Chunk.to_cstruct c)
+      Cstruct.empty chunks
+  in
+  header <+> chunks
 
 let of_cstruct buff =
   let length = Cstruct.length buff in
@@ -39,3 +48,11 @@ let of_cstruct buff =
     (* Common header + chunk header more than buff... Yikes! *)
   else if 16 > length then Error (`Msg "Not enough data in buff")
   else Error (`Msg "TOOOODODODODODODODO")
+
+let pp ppf { header; chunks } =
+  Fmt.pf ppf "header={%a} chunks=[%a]" Common_header.pp header
+    (Fmt.list Chunk.pp) chunks
+
+let equal a b =
+  Common_header.equal a.header b.header
+  && List.for_all2 Chunk.equal a.chunks b.chunks

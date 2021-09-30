@@ -2,6 +2,7 @@ module Common_header = struct
   type t = {
     src_port : Cstruct.uint16;
     dst_port : Cstruct.uint16;
+    (* Hmmm?! https://github.com/mirage/ocaml-cstruct/issues/86 *)
     verification_tag : Cstruct.uint32;
     checksum : Cstruct.uint32;
   }

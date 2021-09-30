@@ -172,6 +172,21 @@ module Init_common (P : Param.S) = struct
     params : P.t list;
   }
 
+  let pp ppf { init_tag; a_rwnd; outbound; inbound; initial_tsn; params } =
+    Fmt.pf ppf
+      "init_tag=%ld a_rwnd=%ld outbound=%i inbound=%i initial_tsn=%ld params=%a"
+      init_tag a_rwnd outbound inbound initial_tsn
+      Fmt.(list P.pp)
+      params
+
+  let equal a b =
+    a.init_tag = b.init_tag
+    && a.a_rwnd = b.a_rwnd
+    && a.outbound = b.outbound
+    && a.inbound = b.inbound
+    && a.initial_tsn = b.initial_tsn
+    && List.for_all2 P.equal a.params b.params
+
   let of_cstruct buff =
     let init_tag = Cstruct.BE.get_uint32 buff 0 in
     let a_rwnd = Cstruct.BE.get_uint32 buff 4 in
@@ -180,15 +195,17 @@ module Init_common (P : Param.S) = struct
     let initial_tsn = Cstruct.BE.get_uint32 buff 12 in
     let remaining = Cstruct.length buff - 16 in
     (* There's probably a nice fold to do here... *)
-    let off, params = (ref 16, ref []) in
+    let off, params = (ref 0, ref []) in
+    Fmt.pr "%i" remaining;
     try
       while !off < remaining do
-        let b = Cstruct.sub buff !off (remaining - !off) in
+        let b = Cstruct.sub buff (16 + !off) (remaining - !off) in
         let p =
           P.of_cstruct b |> function Ok v -> v | Error (`Msg m) -> failwith m
         in
+        let len = P.length p in
         params := p :: !params;
-        off := !off + P.length p
+        off := !off + (len + pad len)
       done;
       Ok { init_tag; a_rwnd; outbound; inbound; initial_tsn; params = !params }
     with Failure m ->
@@ -204,6 +221,7 @@ module Init_common (P : Param.S) = struct
           l + pad l)
         0 params
     in
+    Fmt.pr "!!!%i" p_length;
     let buff = Cstruct.create (16 + p_length) in
     Cstruct.BE.set_uint32 buff 0 init_tag;
     Cstruct.BE.set_uint32 buff 4 a_rwnd;
@@ -250,4 +268,5 @@ module Init = struct
   end
 
   module Params = Param.Make (T)
+  include Init_common (Params)
 end

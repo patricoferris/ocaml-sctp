@@ -38,7 +38,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'
@@ -70,7 +70,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'
@@ -102,7 +102,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'
@@ -134,7 +134,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'
@@ -166,7 +166,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'
@@ -198,7 +198,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'
@@ -230,7 +230,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn sctp.dev './'

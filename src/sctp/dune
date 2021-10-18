@@ -1,6 +1,6 @@
 (library
  (name sctp)
  (public_name sctp)
- (libraries fmt cstruct checkseum)
+ (libraries fmt cstruct logs mirage-clock checkseum)
  (preprocess
   (pps ppx_cstruct)))

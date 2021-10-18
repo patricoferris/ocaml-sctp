@@ -1,0 +1,4 @@
+(library
+ (name sctp_stack_direct)
+ (public_name sctp.stack-direct)
+ (libraries lwt sctp mirage-time mirage-random mirage-net ethernet ))

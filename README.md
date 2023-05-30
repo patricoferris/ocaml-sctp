@@ -1,4 +1,4 @@
 ocaml-sctp
 ----------
 
-Pure & Incomplete *Stream Control Transmission Protocol* (SCTP) in OCaml.
+Pure & Incomplete *Stream Control Transmission Protocol* (SCTP) in OCaml. Open-sourcing for the benefit of others.
